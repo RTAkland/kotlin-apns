@@ -14,6 +14,8 @@ repositories {
 }
 
 kotlin {
+    withSourcesJar()
+
     macosArm64()
     macosX64()
     mingwX64()
@@ -67,6 +69,17 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.8.2")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
             implementation(kotlin("test"))
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven("https://repo.maven.rtast.cn/releases") {
+            credentials {
+                username = "RTAkland"
+                password = System.getenv("PUBLISH_TOKEN")
+            }
         }
     }
 }
