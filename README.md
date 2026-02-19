@@ -12,6 +12,18 @@ Supported platforms:
 
 
 ```kotlin
+
+repositories {
+    mavenCentral()
+    maven("https://repo.maven.rtast.cn/releases")
+}
+
+dependencies {
+    implementation("cn.rtast.apns:kotlin-apns:1.0")
+}
+```
+
+```kotlin
 fun main() {
     val apns = apns(
         topic,  // String
