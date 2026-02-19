@@ -6,8 +6,8 @@ Supported platforms:
 - jvm11+
 - mingw64
 - linux64
-- macox64
-- macoxarm64
+- macos64
+- macosarm64
 - ~~js browser & nodejs~~
 
 
