@@ -6,6 +6,8 @@
 
 package cn.rtast.apns.util
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -17,7 +19,7 @@ internal actual suspend fun post(
     url: String,
     payload: String,
     headers: Map<String, String>,
-): String {
+): String = withContext(Dispatchers.IO) {
     val client = HttpClient.newBuilder()
         .version(HttpClient.Version.HTTP_2)
         .connectTimeout(Duration.ofSeconds(10))
@@ -31,5 +33,5 @@ internal actual suspend fun post(
     val request = requestBuilder.build()
     val response = client.send(request, HttpResponse.BodyHandlers.ofString())
     if (response.statusCode() !in 200..299) throw RuntimeException("HTTP ${response.statusCode()}: ${response.body()}")
-    return response.body()
+    return@withContext response.body()
 }

@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cn.rtast.apns"
-version = "1.0"
+version = "1.1"
 
 repositories {
     mavenCentral()
@@ -15,6 +15,7 @@ repositories {
 
 kotlin {
     withSourcesJar()
+    explicitApi()
 
     macosArm64()
     macosX64()
@@ -22,18 +23,6 @@ kotlin {
     linuxX64()
     linuxArm64()
     jvm { compilerOptions.jvmTarget = JvmTarget.JVM_11 }
-//    js(IR) {
-//        browser {
-//            testTask {
-//                useKarma {
-//                    useChromeHeadless()
-//                }
-//            }
-//        }
-//        nodejs()
-//    }
-
-    explicitApi()
 
     sourceSets {
         commonMain.dependencies {
@@ -43,26 +32,9 @@ kotlin {
             implementation(libs.jwt.ecdsa.kt)
         }
 
-        jvmMain.dependencies {
-        }
-
         nativeMain.dependencies {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.curl)
-        }
-
-//        jsMain.dependencies {
-//            implementation(libs.ktor.client.core)
-//            implementation(libs.ktor.client.js)
-//        }
-
-        linuxMain.dependencies {
-        }
-
-        mingwMain.dependencies {
-        }
-
-        appleMain.dependencies {
         }
 
         commonTest.dependencies {
