@@ -43,7 +43,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/src/commonTest/resources/test.p8
-/src/commonTest/resources/deviceToken.txt
+/kapns-common/src/commonTest/resources/test.p8
+/kapns-common/src/commonTest/resources/deviceToken.txt
 kotlin-js-store/
 .idea/
+/kapns-core/src/commonTest/resources/deviceToken.txt
+/kapns-core/src/commonTest/resources/test.p8
