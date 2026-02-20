@@ -8,7 +8,7 @@
 package test
 
 import cn.rtast.apns.apns
-import cn.rtast.apns.data.PushType
+import cn.rtast.apns.PushType
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 

@@ -5,6 +5,6 @@
  */
 
 
-package cn.rtast.apns.util
+package cn.rtast.apns
 
 internal expect suspend fun post(url: String, payload: String, headers: Map<String, String>): String

@@ -1,11 +1,4 @@
-/*
- * Copyright © 2026 RTAkland
- * Author: RTAkland
- * Date: 2026/2/19
- */
-
-
-package cn.rtast.apns.data
+package cn.rtast.apns
 
 import kotlinx.serialization.SerialName
 

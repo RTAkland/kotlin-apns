@@ -4,7 +4,7 @@
  * Date: 2026/2/19
  */
 
-package cn.rtast.apns.util
+package cn.rtast.apns
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

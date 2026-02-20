@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "cn.rtast.apns"
-version = "1.1"
+version = "1.2"
 
 repositories {
     mavenCentral()
@@ -23,18 +23,27 @@ kotlin {
     linuxX64()
     linuxArm64()
     jvm { compilerOptions.jvmTarget = JvmTarget.JVM_11 }
+    js(IR) { nodejs() }
 
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.jwt.kt)
-            implementation(libs.jwt.ecdsa.kt)
+            implementation("dev.whyoleg.cryptography:cryptography-core:0.5.0")
+        }
+
+        jvmMain.dependencies {
+            implementation("dev.whyoleg.cryptography:cryptography-provider-jdk:0.5.0")
+        }
+
+        jsMain.dependencies {
+            implementation("dev.whyoleg.cryptography:cryptography-provider-webcrypto:0.5.0")
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.curl)
+            implementation("dev.whyoleg.cryptography:cryptography-provider-optimal:0.5.0")
         }
 
         commonTest.dependencies {

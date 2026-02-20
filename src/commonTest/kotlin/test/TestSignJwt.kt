@@ -7,7 +7,7 @@
 
 package test
 
-import cn.rtast.apns.util.signJwt
+import cn.rtast.apns.signJwt
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 

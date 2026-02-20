@@ -5,7 +5,7 @@
  */
 
 
-package cn.rtast.apns.util
+package cn.rtast.apns
 
 import kotlinx.serialization.json.Json
 

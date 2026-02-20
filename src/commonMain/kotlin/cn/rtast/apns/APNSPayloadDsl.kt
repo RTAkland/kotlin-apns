@@ -5,7 +5,7 @@
  */
 
 
-package cn.rtast.apns.data
+package cn.rtast.apns
 
 import kotlinx.serialization.Serializable
 
