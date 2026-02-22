@@ -5,7 +5,13 @@
  */
 
 
+@file:OptIn(ExperimentalUuidApi::class)
+
 package cn.rtast.apns
+
+import kotlin.time.Clock
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 
 /**
@@ -28,28 +34,67 @@ public class APNs internal constructor(
     /**
      * push message pass dsl builder
      */
-    public suspend fun push(deviceToken: String, pushType: PushType, payload: APSPayloadBuilder.() -> Unit): String =
-        this.push(deviceToken, pushType, APSPayloadBuilder().apply(payload).build())
+    public suspend fun push(
+        deviceToken: String,
+        pushType: PushType,
+        priority: PushPriority = PushPriority.Immediate,
+        expiration: Long = Clock.System.now().epochSeconds + 86400L,
+        pushId: Uuid? = null,
+        collapseId: String? = null,
+        payload: APSPayloadBuilder.() -> Unit,
+    ): String = this.push(
+        deviceToken = deviceToken,
+        pushType = pushType,
+        priority = priority,
+        expiration = expiration,
+        pushId = pushId,
+        collapseId = collapseId,
+        payload = APSPayloadBuilder().apply(payload).build()
+    )
+
 
     /**
      * push message pass apns payload object
      */
-    public suspend fun push(deviceToken: String, pushType: PushType, payload: ApnsPayload): String =
-        this.push(deviceToken, pushType, payload.toJson())
+    public suspend fun push(
+        deviceToken: String,
+        pushType: PushType,
+        priority: PushPriority = PushPriority.Immediate,
+        expiration: Long = Clock.System.now().epochSeconds + 86400L,
+        pushId: Uuid? = null,
+        collapseId: String? = null,
+        payload: ApnsPayload,
+    ): String = this.push(
+        deviceToken, pushType, payload.toJson(),
+        priority, expiration, pushId, collapseId
+    )
 
     /**
      * push message pass raw JSON payload
      */
-    public suspend fun push(deviceToken: String, pushType: PushType, payload: String): String {
+    public suspend fun push(
+        deviceToken: String,
+        pushType: PushType,
+        payload: String,
+        priority: PushPriority = PushPriority.Immediate,
+        expiration: Long = Clock.System.now().epochSeconds + 86400L,
+        pushId: Uuid? = null,
+        collapseId: String? = null,
+    ): String {
         requireNotNull(jwtToken) { "jwt token is not initialized, use .refreshToken() to initialize/refresh it" }
         val host = if (sandBox) APNS_HOST_SANDBOX else APNS_HOST_PRODUCTION
         return post(
             "$host/3/device/$deviceToken", payload,
-            mapOf(
+            mutableMapOf(
                 "authorization" to "bearer $jwtToken",
                 "apns-topic" to topic,
-                "apns-push-type" to pushType.typeName
-            ),
+                "apns-push-type" to pushType.typeName,
+                "apns-expiration" to expiration.toString(),
+                "apns-priority" to priority.priorityValue.toString()
+            ).apply {
+                pushId?.let { put("apns-id", it.toString()) }
+                collapseId?.let { put("apns-collapse-id", it) }
+            },
         )
     }
 
